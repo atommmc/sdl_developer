@@ -28,14 +28,14 @@ RUN mkdir -p /home/developer/sdl
 RUN locale-gen en_US.UTF-8
 
 # ZSH config
-RUN git clone https://github.com/robbyrussell/oh-my-zsh /opt/oh-my-zsh && \
-    cp /opt/oh-my-zsh/templates/zshrc.zsh-template .zshrc && \
-    cp -r /opt/oh-my-zsh .oh-my-zsh && \
-    cp /opt/oh-my-zsh/templates/zshrc.zsh-template /home/developer/.zshrc && \
-    cp -r /opt/oh-my-zsh /home/developer/.oh-my-zsh && \
-    sed  "s/robbyrussell/bira/" -i /home/developer/.zshrc && \
-    echo "PROMPT=\$(echo \$PROMPT | sed 's/%m/%f\$IMAGE_NAME/g')" >> /home/developer/.zshrc && \
-    echo "RPROMPT=''" >> /home/developer/.zshrc
+#RUN git clone https://github.com/robbyrussell/oh-my-zsh /opt/oh-my-zsh && \
+#    cp /opt/oh-my-zsh/templates/zshrc.zsh-template .zshrc && \
+#    cp -r /opt/oh-my-zsh .oh-my-zsh && \
+#    cp /opt/oh-my-zsh/templates/zshrc.zsh-template /home/developer/.zshrc && \
+#    cp -r /opt/oh-my-zsh /home/developer/.oh-my-zsh && \
+#    sed  "s/robbyrussell/bira/" -i /home/developer/.zshrc && \
+#    echo "PROMPT=\$(echo \$PROMPT | sed 's/%m/%f\$IMAGE_NAME/g')" >> /home/developer/.zshrc && \
+#    echo "RPROMPT=''" >> /home/developer/.zshrc
 
 # Tmux config
 WORKDIR /opt
@@ -56,7 +56,7 @@ RUN apt update && apt install -y sublime-merge
 RUN apt update && apt install -yq \
     openssh-server \
     libmysqlclient-dev
-COPY onStartup/ssh_setup.sh /opt/startup/
+#COPY onStartup/ssh_setup.sh /opt/startup/
 
 #Build
 RUN apt update && apt install -yq \
@@ -105,18 +105,18 @@ RUN apt update && apt install -yq \
     libqt5webkit5-dev \
     libqt5websockets5-dev \
     net-tools
-COPY onStartup/enable_core_dumps.sh /opt/startup/
+#COPY onStartup/enable_core_dumps.sh /opt/startup/
 
 ENV QMAKE /usr/bin/qmake
 
 WORKDIR /home/developer
-COPY scripts/qt-installer-noninteractive.qs /tmp/qt-installer-noninteractive.qs
+#COPY scripts/qt-installer-noninteractive.qs /tmp/qt-installer-noninteractive.qs
 RUN wget http://download.qt.io/official_releases/qt/5.12/5.12.3/qt-opensource-linux-x64-5.12.3.run && \
     chmod +x qt-opensource-linux-x64-5.12.3.run && \
     ./qt-opensource-linux-x64-5.12.3.run  --script /tmp/qt-installer-noninteractive.qs -platform minimal && \
     rm qt-opensource-linux-x64-5.12.3.run
 
-COPY onStartup/qt_creator_configs.sh /opt/startup/
+#COPY onStartup/qt_creator_configs.sh /opt/startup/
 RUN ln -s /home/developer/Qt/Tools/QtCreator/bin/qtcreator /usr/bin/qtcreator
 
 # distcc
@@ -124,12 +124,12 @@ RUN apt update && apt install -yq distcc \
     distccmon-gnome \
     python.tornado
 RUN mkdir -p /home/developer/.distcc
-COPY onStartup/distccd_setup.sh /opt/startup/
+#COPY onStartup/distccd_setup.sh /opt/startup/
 
 RUN mkdir -p  /home/developer/.git-templates/hooks/
 
 EXPOSE 3632
-COPY onStartup/entrypoint.sh /usr/bin/
+#COPY onStartup/entrypoint.sh /usr/bin/
 WORKDIR /home/developer
 ENTRYPOINT ["/bin/bash", "-e", "/usr/bin/entrypoint.sh"]
-CMD ["/bin/zsh"]
+CMD ["/bin/bash"]
