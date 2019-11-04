@@ -41,7 +41,7 @@ RUN locale-gen en_US.UTF-8
 WORKDIR /opt
 RUN git clone https://github.com/gpakosz/.tmux.git && \
     echo "set-option -g default-shell /bin/zsh" >> .tmux/.tmux.conf
-COPY onStartup/tmux_setup.sh /opt/startup/
+#COPY onStartup/tmux_setup.sh /opt/startup/
 
 # Sublime instalation
 ARG SUBLIME_BUILD="${SUBLIME_BUILD:-3207}"
